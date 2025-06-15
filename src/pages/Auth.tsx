@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Eye, EyeOff, Mail, Lock, Github, Loader2, User, GraduationCap, Building } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { AnimatedBubbleBackground } from "@/components/AnimatedBubbleBackground";
 
 const Auth = () => {
   const location = useLocation();

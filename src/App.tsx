@@ -18,6 +18,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Internships from "./pages/Internships";
 import HelpSupport from "./pages/HelpSupport";
 import Error from "./pages/Error";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />

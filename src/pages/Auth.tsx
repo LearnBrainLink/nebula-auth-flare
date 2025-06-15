@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -29,6 +28,7 @@ const Auth = () => {
     parentEmail: '',
     parentPhone: ''
   });
+  const [inputBubbleTrigger, setInputBubbleTrigger] = useState(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -36,7 +36,9 @@ const Auth = () => {
     setIsLogin(location.state?.isLogin !== false);
   }, [location.state]);
 
+  // New onInput to trigger bubble animation on background
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputBubbleTrigger(prev => prev + 1); // Trigger bubbles on each type
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -94,10 +96,8 @@ const Auth = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 flex items-center justify-center p-4">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 animate-pulse" />
-      </div>
+      {/* Interactive Animated Bubble Background */}
+      <AnimatedBubbleBackground trigger={inputBubbleTrigger} />
 
       <div className="relative z-10 flex flex-col items-center">
         <Link to="/" className="mb-8">
@@ -118,54 +118,56 @@ const Auth = () => {
           </CardHeader>
           
           <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
               {!isLogin && (
-                <>
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-white font-medium">Full Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
-                      <Input id="fullName" name="fullName" type="text" placeholder="Enter your full name" value={formData.fullName} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required={!isLogin} />
+                <div className="space-y-0.5">
+                  <div className="flex flex-col md:flex-row gap-3">
+                    <div className="flex-1">
+                      <Label htmlFor="fullName" className="text-white font-medium">Full Name</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
+                        <Input id="fullName" name="fullName" type="text" placeholder="Full name" value={formData.fullName} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <Label htmlFor="accountType" className="text-white font-medium">I am a...</Label>
+                      <Select onValueChange={handleAccountTypeChange} defaultValue={formData.accountType}>
+                        <SelectTrigger className="bg-white/10 border-white/20 text-white placeholder:text-blue-200">
+                          <SelectValue placeholder="Account type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-purple-900/80 backdrop-blur-md border-white/20 text-white">
+                          <SelectItem value="student" className="cursor-pointer">Student</SelectItem>
+                          <SelectItem value="intern" className="cursor-pointer">Intern</SelectItem>
+                          <SelectItem value="parent" className="cursor-pointer">Parent</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="accountType" className="text-white font-medium">I am a...</Label>
-                    <Select onValueChange={handleAccountTypeChange} defaultValue={formData.accountType}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white placeholder:text-blue-200">
-                        <SelectValue placeholder="Select an account type" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-purple-900/80 backdrop-blur-md border-white/20 text-white">
-                        <SelectItem value="student" className="cursor-pointer">Student</SelectItem>
-                        <SelectItem value="intern" className="cursor-pointer">Intern</SelectItem>
-                        <SelectItem value="parent" className="cursor-pointer">Parent</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
                   {formData.accountType === 'student' && (
-                    <>
-                      <div className="space-y-2">
-                        <Label htmlFor="schoolCode" className="text-white font-medium">School Code (if provided)</Label>
+                    <div className="flex flex-col md:flex-row gap-3 mt-3">
+                      <div className="flex-1">
+                        <Label htmlFor="schoolCode" className="text-white font-medium">School Code</Label>
                         <div className="relative">
-                          <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
-                          <Input id="schoolCode" name="schoolCode" type="text" placeholder="Enter your school code" value={formData.schoolCode} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" />
+                          <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="schoolCode" name="schoolCode" type="text" placeholder="School code" value={formData.schoolCode} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" />
                         </div>
                       </div>
-                      
-                      <div className="space-y-2">
+                      <div className="flex-1">
                         <Label htmlFor="school" className="text-white font-medium">School Name</Label>
                         <div className="relative">
-                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
-                          <Input id="school" name="school" type="text" placeholder="Enter your school name" value={formData.school} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
+                          <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="school" name="school" type="text" placeholder="School name" value={formData.school} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
                         </div>
                       </div>
-                      
-                      <div className="space-y-2">
+                    </div>
+                  )}
+                  {formData.accountType === 'student' && (
+                    <div className="flex flex-col md:flex-row gap-3 mt-3">
+                      <div className="flex-1">
                         <Label htmlFor="grade" className="text-white font-medium">Grade Level</Label>
-                        <Select onValueChange={(value) => setFormData({ ...formData, grade: value })}>
+                        <Select onValueChange={(value) => setFormData({ ...formData, grade: value })} defaultValue={formData.grade}>
                           <SelectTrigger className="bg-white/10 border-white/20 text-white placeholder:text-blue-200">
-                            <SelectValue placeholder="Select your grade" />
+                            <SelectValue placeholder="Grade" />
                           </SelectTrigger>
                           <SelectContent className="bg-purple-900/80 backdrop-blur-md border-white/20 text-white">
                             <SelectItem value="6th">6th Grade</SelectItem>
@@ -178,17 +180,16 @@ const Auth = () => {
                           </SelectContent>
                         </Select>
                       </div>
-                      
-                      <div className="space-y-2">
+                      <div className="flex-1">
                         <Label htmlFor="parentEmail" className="text-white font-medium">Parent/Guardian Email</Label>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
-                          <Input id="parentEmail" name="parentEmail" type="email" placeholder="Parent's email address" value={formData.parentEmail} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="parentEmail" name="parentEmail" type="email" placeholder="Parent's email" value={formData.parentEmail} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
-                </>
+                </div>
               )}
               
               <div className="space-y-2">

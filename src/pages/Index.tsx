@@ -1,34 +1,67 @@
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BookOpen, Film, Users, Brain, Zap, Trophy, TrendingUp } from 'lucide-react';
+import { Card } from "@/components/ui/card";
+import { ArrowRight, Film } from 'lucide-react';
+import { HomeStatsCard } from '@/components/HomeStatsCard';
+import { HomeRobotImageCard } from '@/components/HomeRobotImageCard';
+
+// Utilities for reveal-on-scroll
+function useRevealSection(ref: React.RefObject<HTMLElement>) {
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.88) {
+        el.classList.add('animate-fade-in');
+      } else {
+        el.classList.remove('animate-fade-in');
+      }
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [ref]);
+}
+
+const robotImgs = [
+  {
+    src: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=300&h=300&fit=crop",
+    alt: "AI Robot 1"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=300&h=300&fit=crop",
+    alt: "AI Robot 2"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1549921296-a01050bfc8c5?w=300&h=300&fit=crop",
+    alt: "Humanoid Robot"
+  }
+];
+const stats = [
+  { number: "52,139", label: "Active Students" },
+  { number: "99%", label: "Course Completion" },
+  { number: "234", label: "STEM Video Courses" },
+  { number: "1,708", label: "Internship Placements" }
+];
 
 const Index = () => {
-  const particles = Array.from({ length: 20 });
-  const [currentStat, setCurrentStat] = React.useState(0);
-  
-  const stats = [
-    { number: "50,000+", label: "Students Enrolled" },
-    { number: "98%", label: "Success Rate" },
-    { number: "200+", label: "STEM Courses" },
-    { number: "1,500+", label: "Internship Placements" }
-  ];
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const impactRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStat((prev) => (prev + 1) % stats.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [stats.length]);
+  useRevealSection(aboutRef);
+  useRevealSection(impactRef);
+  useRevealSection(featuresRef);
 
   return (
-    <div className="min-h-screen w-full bg-slate-900 text-white overflow-hidden">
+    <div className="min-h-screen w-full bg-slate-900 text-white overflow-x-hidden relative">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 p-4 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
+      <header className="fixed top-0 left-0 right-0 z-50 p-4 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
-          <img src="/lovable-uploads/e8a10f2d-c816-4587-b15a-58d9f5728d19.png" alt="NovaKinetix Academy" className="h-12" />
+          <img src="/lovable-uploads/e8a10f2d-c816-4587-b15a-58d9f5728d19.png" alt="NovaKinetix Academy" className="h-12 drop-shadow-lg" />
           <nav className="flex items-center gap-4">
             <Link to="/auth" state={{ isLogin: true }}>
               <Button variant="ghost" className="text-white hover:bg-white/10">Login</Button>
@@ -42,20 +75,20 @@ const Index = () => {
         </div>
       </header>
       
-      {/* Animated Background */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        {particles.map((_, i) => (
+      {/* Animated Particles */}
+      <div className="absolute inset-0 z-0 opacity-15 pointer-events-none select-none">
+        {Array.from({ length: 24 }).map((_, i) => (
             <div
               key={i}
               className="absolute rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"
               style={{
-                width: `${Math.random() * 100 + 50}px`,
-                height: `${Math.random() * 100 + 50}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDuration: `${Math.random() * 10 + 5}s`,
-                animationDelay: `${Math.random() * 5}s`,
-                filter: 'blur(50px)'
+                width: `${35 + (i % 6) * 14}px`,
+                height: `${35 + (i % 7) * 20}px`,
+                left: `${(i * 17) % 96}%`,
+                top: `${(i * 23) % 95}%`,
+                animationDuration: `${7 + (i % 5)}s`,
+                filter: 'blur(38px)',
+                opacity: 0.6 - (i % 4) * 0.18,
               }}
             />
           ))}
@@ -63,177 +96,100 @@ const Index = () => {
 
       <main className="relative z-10 container mx-auto px-4">
         {/* Hero Section */}
-        <section className="min-h-screen flex flex-col justify-center items-center text-center pt-20">
-          <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 text-sm font-medium mb-6 animate-bounce">
-            🚀 Welcome to the Future of Learning
+        <section className="min-h-[70vh] flex flex-col justify-center items-center text-center pt-28 md:pt-36 pb-8 mb-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-2 text-sm font-medium mb-6 shadow-lg">
+            🚀 Welcome to the Future of Learning with NovaKinetix Academy
           </div>
-          
-          {/* Interactive Floating Robotic Images */}
-          <div className="absolute top-32 left-10 animate-pulse">
-            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=150&h=150&fit=crop&crop=center" alt="AI Robot" className="w-24 h-24 rounded-full shadow-lg hover:scale-110 transition-transform duration-300" />
-          </div>
-          <div className="absolute top-40 right-20 animate-bounce delay-1000">
-            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&h=150&fit=crop&crop=center" alt="Student Learning" className="w-32 h-32 rounded-full shadow-lg hover:scale-110 transition-transform duration-300" />
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent pb-6 animate-fade-in">
-            Unlock Your Potential
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 animate-fade-in">
+            Learn. Innovate. Succeed.
           </h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-            NovaKinetix Academy offers cutting-edge education in STEM, designed to inspire innovation and foster career growth for students, interns, and lifelong learners.
+          <p className="text-lg md:text-2xl text-slate-300 max-w-3xl mx-auto mb-8">
+            NovaKinetix Academy brings you the latest in STEM with interactive courses, personalized learning, and career-building opportunities.
           </p>
-          
-          {/* Interactive Statistics Counter */}
-          <div className="mb-8">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 px-8 py-6">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-blue-400 mb-2 animate-pulse">
-                  {stats[currentStat].number}
-                </div>
-                <div className="text-slate-300">
-                  {stats[currentStat].label}
-                </div>
-              </div>
-            </Card>
-          </div>
-          
-          <div className="flex gap-4 mb-12">
+          <div className="flex gap-4 mb-8 animate-fade-in">
             <Link to="/auth" state={{ isLogin: false }}>
-              <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 text-lg px-8 py-4 hover:scale-105 transition-transform duration-200">
+              <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 text-lg px-8 py-4 hover:scale-105 transition-transform duration-200 shadow-xl">
                 Get Started
               </Button>
             </Link>
             <Link to="/videos">
-              <Button size="lg" variant="outline" className="text-lg bg-slate-800/50 border-slate-700 px-8 py-4 hover:scale-105 transition-transform duration-200">
+              <Button size="lg" variant="outline" className="text-lg bg-slate-800/50 border-slate-700 px-8 py-4 hover:scale-105 transition-transform duration-200 shadow-xl">
                 Explore Courses
               </Button>
             </Link>
           </div>
-        </section>
-
-        {/* Statistics Section */}
-        <section className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Impact</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <Card key={index} className="bg-slate-800/50 border-slate-700 text-center p-6 hover:scale-105 transition-transform duration-300">
-                <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                  <div className="text-slate-300">{stat.label}</div>
-                </CardContent>
-              </Card>
+          {/* Robot Images - static and subtle */}
+          <div className="hidden md:flex gap-10 items-center justify-center mt-8">
+            {robotImgs.map((img, idx) => (
+              <HomeRobotImageCard key={img.src} {...img} className={`${idx === 1 ? "w-36 h-36 md:w-40 md:h-40" : "w-28 h-28 md:w-32 md:h-32"}`} style={{marginBottom: idx === 2 ? '2.5rem' : undefined}} />
             ))}
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-20">
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-slate-800/50 border-slate-700 text-center p-8 hover:scale-105 transition-transform duration-300 group">
-              <CardHeader>
-                <div className="mx-auto bg-blue-500/20 text-blue-400 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors">
-                  <BookOpen className="h-8 w-8" />
-                </div>
-                <CardTitle>Expert-Led Courses</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Engage with comprehensive courses covering the latest in technology and science.</p>
-              </CardContent>
+        {/* Our Impact/Statistics */}
+        <section ref={impactRef} className="pt-7 pb-16">
+          <h2 className="text-3xl font-bold text-center mb-8">Our Impact</h2>
+          <div className="grid gap-6 md:grid-cols-4">
+            {stats.map((stat, i) => (
+              <HomeStatsCard key={stat.label} {...stat} iconIndex={i} />
+            ))}
+          </div>
+        </section>
+        
+        {/* About Section (Reveals on Scroll) */}
+        <section ref={aboutRef} className="pt-12 pb-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <h3 className="text-3xl mb-4 font-semibold">Why NovaKinetix?</h3>
+            <p className="text-lg text-slate-300 mb-3">
+              NovaKinetix Academy is not just an online school—it's a transformative STEM journey with real-world skills, curated by inspiring instructors. 
+              {` `}
+              <span className="whitespace-nowrap text-blue-400 font-semibold">AI-powered paths</span> and 
+              {` `}
+              <span className="whitespace-nowrap text-purple-400 font-semibold">career opportunities</span> await you.
+            </p>
+            <Link to="/resource-library">
+              <Button variant="link" className="text-blue-200 underline">See our Resource Library</Button>
+            </Link>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section ref={featuresRef} className="pt-10 pb-16">
+          <h3 className="text-2xl md:text-3xl font-bold mb-7 text-center">Explore Our Features</h3>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="bg-slate-800/60 border-slate-700 text-center p-8 rounded-xl hover:scale-105 transition-transform duration-300">
+              <div className="text-blue-300 text-4xl mb-3">🧑‍🏫</div>
+              <h4 className="font-semibold text-lg mb-2">Expert-Led Courses</h4>
+              <p className="text-slate-300 text-sm">Engage in dynamic courses expertly taught, from robotics and AI to mathematics, with hands-on projects.</p>
             </Card>
-            <Card className="bg-slate-800/50 border-slate-700 text-center p-8 hover:scale-105 transition-transform duration-300 group">
-              <CardHeader>
-                <div className="mx-auto bg-purple-500/20 text-purple-400 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors">
-                  <Users className="h-8 w-8" />
-                </div>
-                <CardTitle>Career Opportunities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Connect with top companies through our exclusive internship programs.</p>
-              </CardContent>
+            <Card className="bg-slate-800/60 border-slate-700 text-center p-8 rounded-xl hover:scale-105 transition-transform duration-300">
+              <div className="text-purple-300 text-4xl mb-3">🚀</div>
+              <h4 className="font-semibold text-lg mb-2">Career Opportunities</h4>
+              <p className="text-slate-300 text-sm">Unlock potential internships and connect with renowned tech companies through our exclusive network.</p>
             </Card>
-            <Card className="bg-slate-800/50 border-slate-700 text-center p-8 hover:scale-105 transition-transform duration-300 group">
-              <CardHeader>
-                <div className="mx-auto bg-pink-500/20 text-pink-400 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:bg-pink-500/30 transition-colors">
-                  <Film className="h-8 w-8" />
-                </div>
-                <CardTitle>Interactive Video Library</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Access a vast library of video content to learn at your own pace, anytime, anywhere.</p>
-              </CardContent>
+            <Card className="bg-slate-800/60 border-slate-700 text-center p-8 rounded-xl hover:scale-105 transition-transform duration-300">
+              <div className="text-pink-300 text-4xl mb-3">📽️</div>
+              <h4 className="font-semibold text-lg mb-2">Interactive Video Library</h4>
+              <p className="text-slate-300 text-sm">Access our vast, growing video library to study at your pace, anytime, anywhere from any device.</p>
             </Card>
           </div>
         </section>
 
-        {/* Interactive AI Features Section */}
-        <section className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">AI-Powered Learning Experience</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        {/* Video Tour */}
+        <section className="py-16 text-center">
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">Lights, Camera, Action!</h3>
+          <p className="text-slate-400 mb-7 max-w-2xl mx-auto">Get a quick tour of everything NovaKinetix Academy has to offer in this exciting introduction.</p>
+          <div className="aspect-video bg-slate-800/60 border border-slate-700 rounded-xl flex items-center justify-center hover:bg-slate-800/80 transition-colors cursor-pointer group mx-auto max-w-3xl">
             <div>
-              <img src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=600&h=400&fit=crop&crop=center" alt="AI Technology" className="rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300" />
+              <Film className="h-16 w-16 text-blue-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+              <p className="text-slate-200 group-hover:text-white">Exciting Video Tour Coming Soon!</p>
             </div>
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors">
-                <Brain className="h-8 w-8 text-blue-400" />
-                <div>
-                  <h3 className="text-xl font-semibold">Personalized Learning Paths</h3>
-                  <p className="text-slate-400">AI adapts to your learning style and pace</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors">
-                <Zap className="h-8 w-8 text-purple-400" />
-                <div>
-                  <h3 className="text-xl font-semibold">Instant Feedback</h3>
-                  <p className="text-slate-400">Get real-time assistance and corrections</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors">
-                <Trophy className="h-8 w-8 text-yellow-400" />
-                <div>
-                  <h3 className="text-xl font-semibold">Achievement Tracking</h3>
-                  <p className="text-slate-400">Monitor progress with detailed analytics</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Video Tour Section */}
-        <section className="py-20 text-center">
-            <h2 className="text-4xl font-bold mb-4">Lights, Camera, Action!</h2>
-            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">Get a quick tour of everything NovaKinetix Academy has to offer in this exciting introduction.</p>
-            <div className="aspect-video bg-slate-800/50 border border-slate-700 rounded-lg flex items-center justify-center hover:bg-slate-800/70 transition-colors cursor-pointer group">
-                <div className="text-center">
-                  <Film className="h-16 w-16 text-blue-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <p className="text-slate-300 group-hover:text-white transition-colors">(Exciting Video Tour Coming Soon!)</p>
-                </div>
-            </div>
-        </section>
-
-        {/* Student Stories */}
-        <section className="py-20">
-          <h2 className="text-4xl font-bold text-center mb-12">Inspiring Success Stories</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-slate-800/50 border-slate-700 p-6 flex gap-6 items-center hover:scale-105 transition-transform duration-300">
-              <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Student 1" className="h-20 w-20 rounded-full shadow-lg" />
-              <div>
-                <p className="text-slate-400 italic">"The hands-on projects at NovaKinetix helped me land my dream internship. The instructors are amazing!"</p>
-                <p className="font-bold mt-2 text-blue-400">- Alex Johnson, Student</p>
-              </div>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-700 p-6 flex gap-6 items-center hover:scale-105 transition-transform duration-300">
-              <img src="https://i.pravatar.cc/150?u=a042581f4e29026705d" alt="Student 2" className="h-20 w-20 rounded-full shadow-lg" />
-              <div>
-                <p className="text-slate-400 italic">"As a parent, I love the portal. I can easily track my child's progress and communicate with teachers."</p>
-                <p className="font-bold mt-2 text-purple-400">- Maria Garcia, Parent</p>
-              </div>
-            </Card>
           </div>
         </section>
       </main>
 
-       {/* Footer */}
-      <footer className="relative z-10 text-center py-8 border-t border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+      {/* Footer */}
+      <footer className="relative z-10 text-center py-8 border-t border-slate-800 bg-slate-900/60 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <img src="/lovable-uploads/e8a10f2d-c816-4587-b15a-58d9f5728d19.png" alt="NovaKinetix Academy" className="h-8 mx-auto mb-4 opacity-70" />
           <p className="text-slate-500">&copy; {new Date().getFullYear()} NovaKinetix Academy. All Rights Reserved.</p>
@@ -242,5 +198,4 @@ const Index = () => {
     </div>
   );
 };
-
 export default Index;

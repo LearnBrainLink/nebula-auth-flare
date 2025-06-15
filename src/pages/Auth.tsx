@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Eye, EyeOff, Mail, Lock, Github, Loader2, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Github, Loader2, User, GraduationCap, Building } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -22,7 +22,12 @@ const Auth = () => {
     password: '',
     confirmPassword: '',
     fullName: '',
-    accountType: 'student'
+    accountType: 'student',
+    schoolCode: '',
+    school: '',
+    grade: '',
+    parentEmail: '',
+    parentPhone: ''
   });
   const { toast } = useToast();
 
@@ -123,6 +128,7 @@ const Auth = () => {
                       <Input id="fullName" name="fullName" type="text" placeholder="Enter your full name" value={formData.fullName} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required={!isLogin} />
                     </div>
                   </div>
+                  
                   <div className="space-y-2">
                     <Label htmlFor="accountType" className="text-white font-medium">I am a...</Label>
                     <Select onValueChange={handleAccountTypeChange} defaultValue={formData.accountType}>
@@ -136,6 +142,52 @@ const Auth = () => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  {formData.accountType === 'student' && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="schoolCode" className="text-white font-medium">School Code (if provided)</Label>
+                        <div className="relative">
+                          <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="schoolCode" name="schoolCode" type="text" placeholder="Enter your school code" value={formData.schoolCode} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="school" className="text-white font-medium">School Name</Label>
+                        <div className="relative">
+                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="school" name="school" type="text" placeholder="Enter your school name" value={formData.school} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="grade" className="text-white font-medium">Grade Level</Label>
+                        <Select onValueChange={(value) => setFormData({ ...formData, grade: value })}>
+                          <SelectTrigger className="bg-white/10 border-white/20 text-white placeholder:text-blue-200">
+                            <SelectValue placeholder="Select your grade" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-purple-900/80 backdrop-blur-md border-white/20 text-white">
+                            <SelectItem value="6th">6th Grade</SelectItem>
+                            <SelectItem value="7th">7th Grade</SelectItem>
+                            <SelectItem value="8th">8th Grade</SelectItem>
+                            <SelectItem value="9th">9th Grade</SelectItem>
+                            <SelectItem value="10th">10th Grade</SelectItem>
+                            <SelectItem value="11th">11th Grade</SelectItem>
+                            <SelectItem value="12th">12th Grade</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="parentEmail" className="text-white font-medium">Parent/Guardian Email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-blue-300" />
+                          <Input id="parentEmail" name="parentEmail" type="email" placeholder="Parent's email address" value={formData.parentEmail} onChange={handleInputChange} className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-200" required />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
               

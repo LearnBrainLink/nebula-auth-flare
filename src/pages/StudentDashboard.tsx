@@ -1,228 +1,318 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { 
-  BookOpen, 
-  Trophy, 
-  Clock, 
-  Users, 
-  Bell, 
-  Calendar, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import {
+  BookOpen,
+  Calendar,
+  Clock,
+  Award,
+  Video,
+  Building2,
+  LogOut,
   TrendingUp,
-  User,
+  Star,
   Settings,
-  LogOut
-} from 'lucide-react';
+} from "lucide-react";
+import { Logo } from "@/components/logo";
 
-const StudentDashboard = () => {
-  const currentCourses = [
-    { name: "Robotics Fundamentals", progress: 65, nextLesson: "Motor Control Systems" },
-    { name: "Python Programming", progress: 80, nextLesson: "Object-Oriented Programming" },
-    { name: "AI Basics", progress: 40, nextLesson: "Neural Networks Introduction" }
-  ];
-
-  const upcomingAssignments = [
-    { title: "Robot Design Project", dueDate: "Dec 20", course: "Robotics" },
-    { title: "Python Quiz #3", dueDate: "Dec 18", course: "Programming" },
-    { title: "AI Ethics Essay", dueDate: "Dec 22", course: "AI Basics" }
-  ];
-
-  const achievements = [
-    { title: "First Code Warrior", description: "Completed first programming assignment", icon: "🏆" },
-    { title: "Robot Builder", description: "Built your first robot simulation", icon: "🤖" },
-    { title: "Quick Learner", description: "Completed 5 lessons this week", icon: "⚡" }
-  ];
-
+export default function StudentDashboard() {
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-100 to-blue-200 px-2 sm:px-6 md:px-10">
       {/* Header */}
-      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <img src="/lovable-uploads/e8a10f2d-c816-4587-b15a-58d9f5728d19.png" alt="NovaKinetix Academy" className="h-10" />
-            <h1 className="text-xl font-semibold">Student Dashboard</h1>
+      <header className="bg-white/80 backdrop-blur-md shadow-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-2 sm:px-8 lg:px-10 py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+          <div className="flex items-center gap-4 group">
+            <Logo
+              variant="large"
+              className="group-hover:scale-110 transition-transform duration-300 logo-nav w-12 h-12 sm:w-16 sm:h-16"
+            />
+            <div className="hidden md:block">
+              <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 bg-gradient-to-r from-blue-700 to-purple-600 bg-clip-text text-transparent">
+                NOVAKINETIX
+              </h1>
+              <p className="text-base sm:text-lg font-semibold text-blue-400">
+                ACADEMY
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="h-4 w-4" />
-            </Button>
-            <Link to="/">
-              <Button variant="ghost" size="sm">
-                <LogOut className="h-4 w-4" />
+          <div className="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
+            <Link to="/videos">
+              <Button
+                variant="outline"
+                className="border-blue-500 text-blue-600 hover:bg-blue-50 transition duration-200"
+              >
+                <Video className="w-5 h-5 mr-2" />
+                Videos
+              </Button>
+            </Link>
+            <Link to="/internships">
+              <Button
+                variant="outline"
+                className="border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition duration-200"
+              >
+                <Building2 className="w-5 h-5 mr-2" />
+                Internships
+              </Button>
+            </Link>
+            <Link to="/profile">
+              <Button
+                variant="outline"
+                className="border-purple-500 text-purple-600 hover:bg-purple-50 transition duration-200"
+              >
+                <Settings className="w-5 h-5 mr-2" />
+                Profile
+              </Button>
+            </Link>
+            <Link to="/auth">
+              <Button
+                variant="outline"
+                className="border-red-300 text-red-600 hover:bg-red-50 transition duration-200"
+              >
+                <LogOut className="w-5 h-5 mr-2" />
+                Sign Out
               </Button>
             </Link>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12">
         {/* Welcome Section */}
-        <section className="mb-8">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-full">
-              <User className="h-8 w-8" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold">Welcome back, Alex!</h2>
-              <p className="text-slate-400">Ready to continue your learning journey?</p>
-            </div>
-          </div>
-          
-          {/* Quick Stats */}
-          <div className="grid md:grid-cols-4 gap-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-slate-400">Courses</p>
-                    <p className="text-2xl font-bold text-blue-400">3</p>
-                  </div>
-                  <BookOpen className="h-8 w-8 text-blue-400" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-slate-400">Achievements</p>
-                    <p className="text-2xl font-bold text-yellow-400">8</p>
-                  </div>
-                  <Trophy className="h-8 w-8 text-yellow-400" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-slate-400">Study Time</p>
-                    <p className="text-2xl font-bold text-green-400">24h</p>
-                  </div>
-                  <Clock className="h-8 w-8 text-green-400" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-slate-400">Progress</p>
-                    <p className="text-2xl font-bold text-purple-400">68%</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-purple-400" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-sky-500 to-fuchsia-600 inline-block text-transparent bg-clip-text mb-4">
+            Welcome back, Student! 🎓
+          </h2>
+          <p className="text-xl text-blue-500 font-medium max-w-2xl mx-auto">
+            Continue your exciting STEM learning journey and unlock new possibilities!
+          </p>
+        </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Current Courses */}
-          <div className="lg:col-span-2">
-            <Card className="bg-slate-800/50 border-slate-700 mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BookOpen className="h-5 w-5" />
-                  Current Courses
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {currentCourses.map((course, index) => (
-                  <div key={index} className="p-4 bg-slate-700/30 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold">{course.name}</h3>
-                      <span className="text-sm text-slate-400">{course.progress}%</span>
-                    </div>
-                    <Progress value={course.progress} className="mb-2" />
-                    <p className="text-sm text-slate-400">Next: {course.nextLesson}</p>
-                    <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700">
-                      Continue Learning
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-blue-100/30 to-blue-50 group transition-all duration-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-blue-700 group-hover:text-blue-900 duration-200">
+                <div className="p-3 bg-blue-200 rounded-full">
+                  <Calendar className="h-6 w-6 text-blue-700" />
+                </div>
+                Upcoming Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-blue-700 mb-2">2</div>
+              <p className="text-blue-400 font-medium flex items-center">
+                <Clock className="w-4 h-4 mr-1 text-blue-400" />
+                Events this week
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-emerald-100/30 to-emerald-50 group transition-all duration-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-emerald-700 group-hover:text-emerald-900 duration-200">
+                <div className="p-3 bg-emerald-200 rounded-full">
+                  <BookOpen className="h-6 w-6 text-emerald-700" />
+                </div>
+                Learning Progress
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-emerald-700 mb-2">75%</div>
+              <p className="text-emerald-400 font-medium flex items-center">
+                <TrendingUp className="w-4 h-4 mr-1 text-emerald-400" />
+                Current courses
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-yellow-50 via-yellow-100 to-yellow-50 group transition-all duration-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-3 text-yellow-700 group-hover:text-yellow-800 duration-200">
+                <div className="p-3 bg-yellow-200 rounded-full">
+                  <Award className="h-6 w-6 text-yellow-700" />
+                </div>
+                Achievements
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-yellow-700 mb-2">3</div>
+              <p className="text-yellow-500 font-medium flex items-center">
+                <Star className="w-4 h-4 mr-1 text-yellow-500" />
+                New badges earned
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Enhanced Tabs */}
+        <Tabs defaultValue="internships" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-3 h-14 bg-white/80 backdrop-blur-sm border border-slate-100 rounded-xl p-2 shadow-md">
+            <TabsTrigger
+              value="internships"
+              className="text-lg font-semibold data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-lg transition-all"
+            >
+              Internships
+            </TabsTrigger>
+            <TabsTrigger
+              value="courses"
+              className="text-lg font-semibold data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-lg transition-all"
+            >
+              Courses
+            </TabsTrigger>
+            <TabsTrigger
+              value="progress"
+              className="text-lg font-semibold data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-lg transition-all"
+            >
+              My Progress
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="internships" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <Card className="shadow-md border-0 bg-gradient-to-bl from-blue-100/70 to-white group hover:scale-[1.03] transition-all duration-200">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xl font-bold text-blue-700">Summer Engineering Program</CardTitle>
+                  <CardDescription className="text-lg text-blue-400">
+                    TechCorp Industries
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center text-base font-medium">
+                    <Clock className="h-5 w-5 mr-3 text-blue-500" />
+                    <span>8 weeks (Jun 15 - Aug 10)</span>
+                  </div>
+                  <p className="text-blue-400 leading-relaxed">
+                    Work on real-world projects with experienced engineers and gain hands-on experience.
+                  </p>
+                  <div className="pt-4">
+                    <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg">
+                      <Link to="/internships">View Details</Link>
                     </Button>
                   </div>
-                ))}
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-md border-0 bg-gradient-to-bl from-emerald-100/70 to-white group hover:scale-[1.03] transition-all duration-200">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xl font-bold text-emerald-700">Robotics Workshop</CardTitle>
+                  <CardDescription className="text-lg text-emerald-400">
+                    Innovation Labs
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center text-base font-medium">
+                    <Clock className="h-5 w-5 mr-3 text-emerald-500" />
+                    <span>6 weeks (Jun 20 - Aug 1)</span>
+                  </div>
+                  <p className="text-emerald-400 leading-relaxed">
+                    Build and program robots with cutting-edge technology and expert mentorship.
+                  </p>
+                  <div className="pt-4">
+                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg">
+                      <Link to="/internships">View Details</Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="courses">
+            <Card className="shadow-md border-0 bg-gradient-to-br from-blue-50 to-white">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl font-bold text-blue-700">My Courses</CardTitle>
+                <CardDescription className="text-lg text-blue-400">
+                  Track your enrolled courses and progress
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-blue-100 to-white rounded-xl border border-slate-100">
+                  <div className="p-3 bg-blue-200 rounded-full">
+                    <BookOpen className="w-6 h-6 text-blue-700" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-blue-700">
+                      Currently enrolled in 3 courses
+                    </h3>
+                    <p className="text-blue-400">Continue learning with our comprehensive curriculum</p>
+                  </div>
+                </div>
+                <Button
+                  size="lg"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg"
+                >
+                  <Link to="/videos">Browse All Courses</Link>
+                </Button>
               </CardContent>
             </Card>
+          </TabsContent>
 
-            {/* Recent Achievements */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5" />
-                  Recent Achievements
-                </CardTitle>
+          <TabsContent value="progress">
+            <Card className="shadow-md border-0 bg-gradient-to-br from-fuchsia-50 to-white">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl font-bold text-fuchsia-700">Learning Progress</CardTitle>
+                <CardDescription className="text-lg text-fuchsia-400">
+                  Track your achievements and growth
+                </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-8">
                 <div className="space-y-4">
-                  {achievements.map((achievement, index) => (
-                    <div key={index} className="flex items-center gap-4 p-3 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors">
-                      <div className="text-2xl">{achievement.icon}</div>
-                      <div>
-                        <h4 className="font-semibold">{achievement.title}</h4>
-                        <p className="text-sm text-slate-400">{achievement.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-fuchsia-700">Introduction to Engineering</span>
+                    <span className="text-lg font-bold text-fuchsia-400">75%</span>
+                  </div>
+                  <div className="h-3 bg-fuchsia-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 rounded-full transition-all duration-500"
+                      style={{ width: "75%" }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-blue-700">Robotics Fundamentals</span>
+                    <span className="text-lg font-bold text-blue-400">40%</span>
+                  </div>
+                  <div className="h-3 bg-blue-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500"
+                      style={{ width: "40%" }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-emerald-700">Environmental Science</span>
+                    <span className="text-lg font-bold text-emerald-400">90%</span>
+                  </div>
+                  <div className="h-3 bg-emerald-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all duration-500"
+                      style={{ width: "90%" }}
+                    ></div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Upcoming Assignments */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
-                  Upcoming Assignments
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {upcomingAssignments.map((assignment, index) => (
-                  <div key={index} className="p-3 bg-slate-700/30 rounded-lg">
-                    <h4 className="font-semibold text-sm">{assignment.title}</h4>
-                    <p className="text-xs text-slate-400">{assignment.course}</p>
-                    <p className="text-xs text-orange-400">Due: {assignment.dueDate}</p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Quick Actions */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Link to="/videos" className="block">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                    Browse Videos
-                  </Button>
-                </Link>
-                <Link to="/resource-library" className="block">
-                  <Button variant="outline" className="w-full border-slate-600 text-white hover:bg-slate-700">
-                    Resource Library
-                  </Button>
-                </Link>
-                <Link to="/help-support" className="block">
-                  <Button variant="outline" className="w-full border-slate-600 text-white hover:bg-slate-700">
-                    Get Help
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
-};
+}
 
-export default StudentDashboard;
+// The file is now quite large. Consider asking to refactor this page into subcomponents (like StatCard, InternshipCard, etc.) for maintainability!

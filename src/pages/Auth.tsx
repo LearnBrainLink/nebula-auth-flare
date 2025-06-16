@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -37,7 +36,7 @@ export default function SignUpPage() {
       <div className="w-full max-w-3xl">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-3 mb-4">
-            <Logo className="" />
+            <Logo className="hover:scale-110 transition-transform duration-300" />
           </Link>
           <p className="text-lg text-gray-700">Join our community of young engineers!</p>
         </div>
@@ -46,7 +45,7 @@ export default function SignUpPage() {
           <CardHeader className="space-y-2">
             <CardTitle className="text-3xl text-center text-blue-800">Create Your Account</CardTitle>
             <CardDescription className="text-center text-lg text-gray-600">
-              Start your STEM journey with Novakinetix Academy
+              Start your STEM journey today
             </CardDescription>
           </CardHeader>
           <CardContent className="px-8 pb-8">

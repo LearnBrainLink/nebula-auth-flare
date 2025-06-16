@@ -16,10 +16,9 @@
   }
 }
 
-/* Optionally, you could add additional "brand-" color classes for unified color management: */
 @layer utilities {
-  .text-brand-primary { color: #2563eb; }     /* blue-600 */
-  .text-brand-secondary { color: #38bdf8; }   /* sky-400 */
+  .text-brand-primary { color: #2563eb; }
+  .text-brand-secondary { color: #38bdf8; }
   .border-brand-primary { border-color: #2563eb; }
   .border-brand-secondary { border-color: #38bdf8; }
   .hover\:bg-brand-primary:hover { background-color: #2563eb; }
@@ -30,10 +29,36 @@
   .shadow-brand {
     box-shadow: 0 4px 24px 0 rgba(37,99,235,.14), 0 2px 4px 0 rgba(0,0,0,.05);
   }
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
 }
 
 @layer components {
   .hero-gradient {
     background: linear-gradient(120deg, #e0ecfc 0%, #f3f8ff 48%, #d0e9fb 100%);
   }
+}
+
+/* Enhanced animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+/* Smooth transitions for interactive elements */
+* {
+  transition-property: transform, box-shadow, border-color, background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

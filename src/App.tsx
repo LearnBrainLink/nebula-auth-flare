@@ -20,6 +20,7 @@ import ExploreInternships from "./pages/ExploreInternships";
 import HelpSupport from "./pages/HelpSupport";
 import Error from "./pages/Error";
 import Auth from "./pages/Auth";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />

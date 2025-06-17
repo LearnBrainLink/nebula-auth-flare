@@ -16,11 +16,9 @@ import ParentPortal from "./pages/ParentPortal";
 import SetupEnv from "./pages/SetupEnv";
 import ResetPassword from "./pages/ResetPassword";
 import Internships from "./pages/Internships";
-import ExploreInternships from "./pages/ExploreInternships";
 import HelpSupport from "./pages/HelpSupport";
 import Error from "./pages/Error";
 import Auth from "./pages/Auth";
-import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +31,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
@@ -44,7 +41,6 @@ const App = () => (
           <Route path="/setup/env" element={<SetupEnv />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/internships" element={<Internships />} />
-          <Route path="/explore-internships" element={<ExploreInternships />} />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/error" element={<Error />} />
           <Route path="/not-found" element={<NotFound />} />

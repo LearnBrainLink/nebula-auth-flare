@@ -2,50 +2,86 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  BookOpen, Calendar, Clock, Award, Video, Building2, LogOut,
-  TrendingUp, Star, Settings
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import {
+  BookOpen,
+  Calendar,
+  Clock,
+  Award,
+  Video,
+  Building2,
+  LogOut,
+  TrendingUp,
+  Star,
+  Settings,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 
-// You can update signOut logic here if needed
-
 export default function StudentDashboard() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sky-100 to-blue-200 px-2 sm:px-6 md:px-10">
-      {/* Enhanced Header with Larger Logo */}
-      <header className="bg-white/90 backdrop-blur-md shadow-brand border-b border-blue-300/30">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-100 to-blue-200 px-2 sm:px-6 md:px-10">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-md shadow-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-2 sm:px-8 lg:px-10 py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
           <div className="flex items-center gap-4 group">
-            <Logo variant="large" className="logo-nav w-24 h-16 drop-shadow-md" />
+            <Logo
+              variant="large"
+              className="group-hover:scale-110 transition-transform duration-300 logo-nav w-12 h-12 sm:w-16 sm:h-16"
+            />
             <div className="hidden md:block">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-blue-800 bg-clip-text text-transparent drop-shadow-md tracking-wide">NOVAKINETIX</h1>
-              <p className="text-lg font-semibold text-blue-400 tracking-wide">ACADEMY</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 bg-gradient-to-r from-blue-700 to-purple-600 bg-clip-text text-transparent">
+                NOVAKINETIX
+              </h1>
+              <p className="text-base sm:text-lg font-semibold text-blue-400">
+                ACADEMY
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
             <Link to="/videos">
-              <Button className="border border-blue-500 text-blue-700 hover:bg-blue-500 hover:text-white px-4 py-2 rounded-md transition">
+              <Button
+                variant="outline"
+                className="border-blue-500 text-blue-600 hover:bg-blue-50 transition duration-200"
+              >
                 <Video className="w-5 h-5 mr-2" />
                 Videos
               </Button>
             </Link>
             <Link to="/internships">
-              <Button className="border border-emerald-500 text-emerald-700 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded-md transition">
+              <Button
+                variant="outline"
+                className="border-emerald-500 text-emerald-600 hover:bg-emerald-50 transition duration-200"
+              >
                 <Building2 className="w-5 h-5 mr-2" />
                 Internships
               </Button>
             </Link>
             <Link to="/profile">
-              <Button className="border border-purple-500 text-purple-700 hover:bg-purple-600 hover:text-white px-4 py-2 rounded-md transition">
+              <Button
+                variant="outline"
+                className="border-purple-500 text-purple-600 hover:bg-purple-50 transition duration-200"
+              >
                 <Settings className="w-5 h-5 mr-2" />
                 Profile
               </Button>
             </Link>
             <Link to="/auth">
-              <Button className="border border-red-300 text-red-600 hover:bg-red-100 px-4 py-2 rounded-md transition">
+              <Button
+                variant="outline"
+                className="border-red-300 text-red-600 hover:bg-red-50 transition duration-200"
+              >
                 <LogOut className="w-5 h-5 mr-2" />
                 Sign Out
               </Button>
@@ -57,7 +93,7 @@ export default function StudentDashboard() {
       <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12">
         {/* Welcome Section */}
         <div className="mb-12 text-center">
-          <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-sky-500 to-blue-800 inline-block text-transparent bg-clip-text mb-4 drop-shadow">
+          <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-sky-500 to-fuchsia-600 inline-block text-transparent bg-clip-text mb-4">
             Welcome back, Student! 🎓
           </h2>
           <p className="text-xl text-blue-500 font-medium max-w-2xl mx-auto">
@@ -67,7 +103,7 @@ export default function StudentDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-blue-100/40 to-blue-50 group transition-all duration-200">
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-blue-100/30 to-blue-50 group transition-all duration-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-blue-700 group-hover:text-blue-900 duration-200">
                 <div className="p-3 bg-blue-200 rounded-full">
@@ -85,7 +121,7 @@ export default function StudentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-emerald-100/40 to-emerald-50 group transition-all duration-200">
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-emerald-100/30 to-emerald-50 group transition-all duration-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-emerald-700 group-hover:text-emerald-900 duration-200">
                 <div className="p-3 bg-emerald-200 rounded-full">
@@ -103,7 +139,7 @@ export default function StudentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-yellow-100/50 via-yellow-50 to-yellow-100 group transition-all duration-200">
+          <Card className="shadow-md hover:shadow-xl border-0 bg-gradient-to-b from-yellow-50 via-yellow-100 to-yellow-50 group transition-all duration-200">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-yellow-700 group-hover:text-yellow-800 duration-200">
                 <div className="p-3 bg-yellow-200 rounded-full">
@@ -278,3 +314,5 @@ export default function StudentDashboard() {
     </div>
   );
 }
+
+// The file is now quite large. Consider asking to refactor this page into subcomponents (like StatCard, InternshipCard, etc.) for maintainability!
